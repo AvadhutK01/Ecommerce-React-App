@@ -1,8 +1,10 @@
 import React from 'react';
 import { useSpring, animated } from 'react-spring';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { useCart } from '../../context/CartContext'; // Use context
 
 const DisplayProductPage = ({ productsArr }) => {
+    const { addToCart } = useCart(); // Access addToCart function from context
     const fadeIn = useSpring({
         from: { opacity: 0 },
         to: { opacity: 1 },
@@ -21,7 +23,12 @@ const DisplayProductPage = ({ productsArr }) => {
                                     <Card.Body>
                                         <Card.Title>{product.title}</Card.Title>
                                         <Card.Text>${product.price}</Card.Text>
-                                        <Button variant="primary">Add to Cart</Button>
+                                        <Button
+                                            variant="primary"
+                                            onClick={() => addToCart(product)}
+                                        >
+                                            Add to Cart
+                                        </Button>
                                     </Card.Body>
                                 </Card>
                             </animated.div>
