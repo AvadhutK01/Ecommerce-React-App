@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Container, Nav, Badge } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 import Cart from '../../Cart/Cart';
 import { useCart } from '../../../context/CartContext';
 
@@ -20,11 +21,11 @@ const Header = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link>Home</Nav.Link>
-                            <Nav.Link>Products</Nav.Link>
+                            <NavLink to="/" className="nav-link">Home</NavLink>
+                            <NavLink to="/products" className="nav-link">Products</NavLink>
                         </Nav>
                         <Nav>
-                            <Nav.Link>About</Nav.Link>
+                            <NavLink to="/about" className="nav-link">About</NavLink>
                             <Nav.Link onClick={handleShowCart}>
                                 <i className="bi bi-cart"></i> Cart <Badge bg="info">{totalCartItems}</Badge>
                             </Nav.Link>

@@ -1,6 +1,4 @@
 import React from 'react'
-import Header from '../UI/Header/HeaderPage'
-import Footer from '../UI/Footer/FooterPage'
 import DisplayProductPage from '../Products/DisplayProductPage'
 
 const MainPage = () => {
@@ -31,9 +29,7 @@ const MainPage = () => {
 
     return (
         <>
-            <Header />
             <DisplayProductPage productsArr={productsArr} />
-            <Footer />
         </>
     )
 }
