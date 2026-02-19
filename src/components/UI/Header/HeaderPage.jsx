@@ -5,7 +5,7 @@ import Cart from '../../Cart/Cart';
 import { useCart } from '../../../context/CartContext';
 
 const Header = () => {
-    const { cartItems } = useCart(); 
+    const { cartItems } = useCart();
     const [showCart, setShowCart] = React.useState(false);
 
     const handleShowCart = () => setShowCart(true);
@@ -26,6 +26,7 @@ const Header = () => {
                         </Nav>
                         <Nav>
                             <NavLink to="/about" className="nav-link">About</NavLink>
+                            <NavLink to="/contact" className="nav-link">Contact Us</NavLink>
                             <Nav.Link onClick={handleShowCart}>
                                 <i className="bi bi-cart"></i> Cart <Badge bg="info">{totalCartItems}</Badge>
                             </Nav.Link>
