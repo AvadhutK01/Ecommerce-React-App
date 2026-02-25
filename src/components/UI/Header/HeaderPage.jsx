@@ -3,9 +3,11 @@ import { Navbar, Container, Nav, Badge } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Cart from '../../Cart/Cart';
 import { useCart } from '../../../context/CartContext';
+import { useAuth } from '../../../context/AuthContext';
 
 const Header = () => {
     const { cartItems } = useCart();
+    const authCtx = useAuth();
     const [showCart, setShowCart] = React.useState(false);
 
     const handleShowCart = () => setShowCart(true);
@@ -27,6 +29,12 @@ const Header = () => {
                         <Nav>
                             <NavLink to="/about" className="nav-link">About</NavLink>
                             <NavLink to="/contact" className="nav-link">Contact Us</NavLink>
+                            {!authCtx.isLoggedIn && (
+                                <NavLink to="/login" className="nav-link">Login</NavLink>
+                            )}
+                            {authCtx.isLoggedIn && (
+                                <Nav.Link onClick={authCtx.logout}>Logout</Nav.Link>
+                            )}
                             <Nav.Link onClick={handleShowCart}>
                                 <i className="bi bi-cart"></i> Cart <Badge bg="info">{totalCartItems}</Badge>
                             </Nav.Link>
