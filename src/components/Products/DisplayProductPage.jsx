@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 
 const DisplayProductPage = ({ productsArr }) => {
     const { addToCart } = useCart();
+    const [loadingProductId, setLoadingProductId] = useState(null);
+
     const fadeIn = useSpring({
         from: { opacity: 0 },
         to: { opacity: 1 },
     });
+
+    const handleAddToCart = async (product) => {
+        setLoadingProductId(product.id);
+        await addToCart(product);
+        setLoadingProductId(null);
+    };
 
     return (
         <animated.div style={fadeIn}>
@@ -35,10 +43,25 @@ const DisplayProductPage = ({ productsArr }) => {
                                         <Card.Text className="mt-auto">${product.price}</Card.Text>
                                         <Button
                                             variant="primary"
-                                            onClick={() => addToCart(product)}
+                                            onClick={() => handleAddToCart(product)}
                                             className="mt-2"
+                                            disabled={loadingProductId === product.id}
                                         >
-                                            Add to Cart
+                                            {loadingProductId === product.id ? (
+                                                <>
+                                                    <Spinner
+                                                        as="span"
+                                                        animation="border"
+                                                        size="sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                        className="me-2"
+                                                    />
+                                                    Adding...
+                                                </>
+                                            ) : (
+                                                'Add to Cart'
+                                            )}
                                         </Button>
                                     </Card.Body>
                                 </Card>

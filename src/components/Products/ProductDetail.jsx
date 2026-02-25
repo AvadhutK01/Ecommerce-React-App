@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Card, ListGroup, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Card, ListGroup, Badge, Button, Spinner } from 'react-bootstrap';
 import productsArr from '../../data/products';
+import { useCart } from '../../context/CartContext';
 
 const ProductDetail = () => {
     const { productId } = useParams();
     const product = productsArr.find(p => p.id === productId);
+    const { addToCart } = useCart();
+    const [isLoading, setIsLoading] = useState(false);
 
     if (!product) {
         return (
@@ -14,6 +17,12 @@ const ProductDetail = () => {
             </Container>
         );
     }
+
+    const handleAddToCart = async () => {
+        setIsLoading(true);
+        await addToCart(product);
+        setIsLoading(false);
+    };
 
     return (
         <Container className="mt-5 p-4 bg-light rounded shadow">
@@ -38,12 +47,36 @@ const ProductDetail = () => {
                 <Col md={6}>
                     <h1 className="mb-3">{product.title}</h1>
                     <h3 className="text-primary mb-4">${product.price}</h3>
-                    <div className="mb-5">
+                    <div className="mb-4">
                         <p className="lead">
                             This is a beautiful piece of art that brings life and color to any space.
                             Crafted with passion and attention to detail.
                         </p>
                     </div>
+
+                    <Button
+                        variant="primary"
+                        size="lg"
+                        className="mb-5 px-5"
+                        onClick={handleAddToCart}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? (
+                            <>
+                                <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                    className="me-2"
+                                />
+                                Adding...
+                            </>
+                        ) : (
+                            'Add to Cart'
+                        )}
+                    </Button>
 
                     <h4 className="mb-3">Customer Reviews</h4>
                     <ListGroup variant="flush" className="bg-transparent">

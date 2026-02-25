@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/UI/Header/HeaderPage';
 import AboutUs from './components/AboutUs/AboutUs';
@@ -10,6 +10,7 @@ import ProductDetail from './components/Products/ProductDetail';
 import Footer from "./components/UI/Footer/FooterPage";
 import LoginPage from './components/Login/LoginPage';
 import { AuthContextProvider, useAuth } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 
 const AppRoutes = () => {
     const authCtx = useAuth();
@@ -30,11 +31,13 @@ const AppRoutes = () => {
 const App = () => {
     return (
         <AuthContextProvider>
-            <Router>
-                <Header />
-                <AppRoutes />
-                <Footer />
-            </Router>
+            <CartProvider>
+                <Router>
+                    <Header />
+                    <AppRoutes />
+                    <Footer />
+                </Router>
+            </CartProvider>
         </AuthContextProvider>
     );
 };

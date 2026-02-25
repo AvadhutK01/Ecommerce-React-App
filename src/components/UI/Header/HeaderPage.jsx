@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Container, Nav, Badge } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import Cart from '../../Cart/Cart';
 import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
@@ -8,9 +8,16 @@ import { useAuth } from '../../../context/AuthContext';
 const Header = () => {
     const { cartItems } = useCart();
     const authCtx = useAuth();
+    const navigate = useNavigate();
     const [showCart, setShowCart] = React.useState(false);
 
-    const handleShowCart = () => setShowCart(true);
+    const handleShowCart = () => {
+        if (authCtx.isLoggedIn) {
+            setShowCart(true);
+        } else {
+            navigate('/login');
+        }
+    };
     const handleCloseCart = () => setShowCart(false);
 
     const totalCartItems = cartItems.length;
