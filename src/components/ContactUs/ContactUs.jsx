@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const ContactUs = () => {
     const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const ContactUs = () => {
         setIsSubmitting(true);
         setStatus({ type: '', message: '' });
 
-        const firestoreUrl = "https://firestore.googleapis.com/v1/projects/sh-p-f50d3/databases/(default)/documents/ecom";
+        const firestoreUrl = `${process.env.REACT_APP_FIRESTORE_URL}/ecom`;
 
         const payload = {
             fields: {
@@ -30,21 +31,11 @@ const ContactUs = () => {
         };
 
         try {
-            const response = await fetch(firestoreUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
+            const response = await axios.post(firestoreUrl, payload);
 
-            if (response.ok) {
+            if (response.status === 200 || response.status === 201) {
                 setStatus({ type: 'success', message: 'Your message has been sent successfully!' });
                 setFormData({ name: '', email: '', phone: '' });
-            } else {
-                const errorData = await response.json();
-                console.error("Firebase Error:", errorData);
-                setStatus({ type: 'danger', message: 'Failed to send message. Please try again.' });
             }
         } catch (error) {
             console.error("Submission Error:", error);

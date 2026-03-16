@@ -1,9 +1,9 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { useCart } from '../../context/CartContext'; // Use context
+import { useCart } from '../../context/CartContext';
 
 const Cart = ({ show, handleClose }) => {
-    const { cartItems, removeFromCart } = useCart(); // Access cart data and removeFromCart function
+    const { cartItems, removeFromCart } = useCart();
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>

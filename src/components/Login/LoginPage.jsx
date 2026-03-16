@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Container, Form, Button, Card, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 
 const LoginPage = () => {
@@ -23,43 +24,32 @@ const LoginPage = () => {
 
         setIsLoading(true);
 
-        let url;
-        if (isLogin) {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCwDsvQguErZLZzPuUX33gtYeXV8tUUFWg';
-        } else {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCwDsvQguErZLZzPuUX33gtYeXV8tUUFWg';
-        }
+        const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
+        const authBaseUrl = process.env.REACT_APP_AUTH_URL;
+        const endpoint = isLogin ? 'signInWithPassword' : 'signUp';
+        const url = `${authBaseUrl}:${endpoint}?key=${apiKey}`;
 
         try {
-            const response = await fetch(url, {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: enteredEmail,
-                    password: enteredPassword,
-                    returnSecureToken: true,
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+            const response = await axios.post(url, {
+                email: enteredEmail,
+                password: enteredPassword,
+                returnSecureToken: true,
             });
 
             setIsLoading(false);
 
-            const data = await response.json();
-
-            if (response.ok) {
+            if (response.status === 200) {
+                const data = response.data;
                 authCtx.login(data.idToken, data.email);
                 navigate('/products');
-            } else {
-                let errorMessage = 'Authentication failed!';
-                if (data && data.error && data.error.message) {
-                    errorMessage = data.error.message;
-                }
-                alert(errorMessage);
             }
         } catch (error) {
             setIsLoading(false);
-            alert('Something went wrong. Please try again later.');
+            let errorMessage = 'Authentication failed!';
+            if (error.response && error.response.data && error.response.data.error) {
+                errorMessage = error.response.data.error.message;
+            }
+            alert(errorMessage);
         }
     };
 

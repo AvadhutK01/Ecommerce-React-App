@@ -7,7 +7,7 @@ import Footer from "./components/UI/Footer/FooterPage";
 import { AuthContextProvider, useAuth } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 
-// Lazy loading components
+
 const HomePage = lazy(() => import('./components/Home/HomePage'));
 const ProductsPage = lazy(() => import('./components/Products/ProductsPage'));
 const AboutUs = lazy(() => import('./components/AboutUs/AboutUs'));

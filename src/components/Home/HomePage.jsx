@@ -19,7 +19,6 @@ const HomePage = () => {
 
     return (
         <animated.div style={fadeIn}>
-            {/* Hero Section */}
             <div className="bg-dark text-white text-center py-5">
                 <Container>
                     <animated.div style={slideIn}>
@@ -37,8 +36,6 @@ const HomePage = () => {
                     </animated.div>
                 </Container>
             </div>
-
-            {/* How It Works Section */}
             <Container className="my-5">
                 <h2 className="text-center mb-5">How to Buy</h2>
                 <Row>
@@ -96,8 +93,6 @@ const HomePage = () => {
                     </Col>
                 </Row>
             </Container>
-
-            {/* Features Section */}
             <div className="bg-light py-5">
                 <Container>
                     <h2 className="text-center mb-5">Why Shop With Us</h2>
@@ -132,8 +127,6 @@ const HomePage = () => {
                     </Row>
                 </Container>
             </div>
-
-            {/* Call to Action */}
             <Container className="text-center my-5 py-5">
                 <h2 className="mb-4">Ready to Start Shopping?</h2>
                 <p className="lead mb-4">
